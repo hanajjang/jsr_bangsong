@@ -670,7 +670,7 @@
 <script>
 const SHEETS = {
   // 각 시트를 '웹에 게시 > CSV' 로 게시한 뒤 URL을 여기에 입력하세요.
-  songs:    'YOUR_SONGS_SHEET_CSV_URL',      // 곡목 시트
+  songs:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSmENSJxpVvs4ixglhBXUDHaopWGZTgpmdEA7yCETYQR5Ta16e_HRDLfCgw3fhSShrZEU1ms-MYcplH/pub?gid=0&single=true&output=csv',      // 곡목 시트
   notice:   'YOUR_NOTICE_SHEET_CSV_URL',     // 공지사항 시트
   issues:   'YOUR_ISSUES_SHEET_CSV_URL',     // 이슈 로그 시트
   contacts: 'YOUR_CONTACTS_SHEET_CSV_URL',   // 담당자 시트
@@ -1142,11 +1142,23 @@ const SAMPLE = {
     <section id="page-issues" class="page-section">
       <div class="sec-header">
         <div class="sec-title"><span class="sec-title-bar"></span>이슈 로그</div>
-        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
           <button class="tab-btn active" style="padding:6px 14px; font-size:12px;" onclick="filterIssues('전체', this)">전체</button>
           <button class="tab-btn" style="padding:6px 14px; font-size:12px;" onclick="filterIssues('critical', this)">🔴 긴급</button>
           <button class="tab-btn" style="padding:6px 14px; font-size:12px;" onclick="filterIssues('pending', this)">🟡 점검중</button>
           <button class="tab-btn" style="padding:6px 14px; font-size:12px;" onclick="filterIssues('resolved', this)">✅ 해결됨</button>
+          <a id="new-issue-btn" href="https://forms.gle/fkgHTpefjARnUJvTA" target="_blank"
+             style="display:inline-flex; align-items:center; gap:6px;
+                    background:var(--rose); color:#fff;
+                    font-size:12px; font-weight:700;
+                    padding:7px 16px; border-radius:9px;
+                    text-decoration:none; margin-left:8px;
+                    box-shadow:0 0 16px rgba(244,63,94,0.3);
+                    transition:transform 0.15s, box-shadow 0.15s;"
+             onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 0 24px rgba(244,63,94,0.5)'"
+             onmouseout="this.style.transform='';this.style.boxShadow='0 0 16px rgba(244,63,94,0.3)'">
+            ＋ 이슈 등록
+          </a>
         </div>
       </div>
 
