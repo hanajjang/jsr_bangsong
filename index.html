@@ -676,7 +676,7 @@ const SHEETS = {
   contacts: 'YOUR_CONTACTS_SHEET_CSV_URL',   // 담당자 시트
 };
 
-  // 샘플 데이터 (실제 시트 연동 전 테스트용)
+// 샘플 데이터 (실제 시트 연동 전 테스트용)
 const SAMPLE = {
   songs: [
     { title:'가는 길', category:'명곡', note:'' },
@@ -1388,7 +1388,14 @@ function fetchCSV(url, callback) {
   }
   Papa.parse(url, {
     download: true, header: true, skipEmptyLines: true,
-    complete: r => callback(r.data),
+    complete: r => {
+      // 데이터가 실제로 있는지 확인 (CORS 오류 시 빈 배열 반환)
+      if (r.data && r.data.length > 0 && Object.keys(r.data[0]).length > 1) {
+        callback(r.data);
+      } else {
+        callback(null);
+      }
+    },
     error: () => callback(null)
   });
 }
@@ -1427,10 +1434,15 @@ function loadNotice() {
 ════════════════════ */
 function loadSongs() {
   fetchCSV(SHEETS.songs, data => {
-    allSongs = data
-      ? data.map(r => ({ title: r['제목'] || r['title'] || '', category: r['카테고리'] || r['category'] || '', note: r['비고'] || r['note'] || '' }))
-      : SAMPLE.songs;
-
+    if (data && data.length > 0) {
+      allSongs = data.map(r => ({
+        title:    r['제목']    || r['title']    || '',
+        category: (r['카테고리'] || r['category'] || '').replace(/\s/g, ''),
+        note:     r['비고']    || r['note']     || '',
+      }));
+    } else {
+      allSongs = SAMPLE.songs;
+    }
     renderSongs();
     document.getElementById('stat-songs').textContent = allSongs.length;
   });
